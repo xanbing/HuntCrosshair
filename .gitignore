@@ -1,0 +1,25 @@
+/build/
+/package/
+/dist/
+/work/
+/release/
+/.vs/
+/.idea/
+*.exe
+*.dll
+*.lib
+*.pdb
+*.obj
+*.o
+*.res
+*.zip
+*.ini
+*.INI
+*.log
+*.tmp
+__pycache__/
+
+# Superseded fixtures for the pre-native settings UI.
+/tests/ui_logic_tests.cpp
+/tests/ui_snapshot.cpp
+/tests/ui_snapshot.md

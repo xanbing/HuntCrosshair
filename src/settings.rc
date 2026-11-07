@@ -1,0 +1,184 @@
+#include <windows.h>
+#include <commctrl.h>
+#include "resource.h"
+
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+
+// Resource-backed native PropertySheet pages. The live preview is a separate
+// owned window; only the curve editor and color swatches draw custom content.
+IDD_CROSSHAIR DIALOGEX 0, 0, 214, 310
+STYLE DS_SETFONT | DS_CONTROL | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "准星"
+FONT 9, "MS Shell Dlg 2", 400, 0, 1
+BEGIN
+    CONTROL         "启用准星(&E)", IDC_ENABLE, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 12, 10, 190, 11
+
+    GROUPBOX        "样式", 600, 8, 29, 198, 83
+    LTEXT           "类型(&T)：", 601, 16, 45, 40, 9
+    COMBOBOX        IDC_CROSS_MODE, 58, 42, 140, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "颜色(&C)...", IDC_CROSS_COLOR, 16, 65, 104, 14
+    CONTROL         "", IDC_CROSS_SWATCH, "HuntCrosshair.Swatch", WS_BORDER | WS_TABSTOP, 130, 65, 24, 14
+    PUSHBUTTON      "绘制准星(&D)...", IDC_EDIT_CROSS, 16, 87, 182, 14
+
+    GROUPBOX        "尺寸与外观", 603, 8, 120, 198, 151
+    LTEXT           "长度 (px)：", 604, 16, 139, 65, 9
+    CONTROL         "", IDC_LENGTH_SLIDER, "msctls_trackbar32", TBS_NOTICKS | WS_TABSTOP, 84, 136, 70, 14
+    EDITTEXT        IDC_LENGTH, 160, 136, 38, 14, ES_RIGHT | ES_AUTOHSCROLL | WS_TABSTOP
+    LTEXT           "中心间隔 (px)：", 605, 16, 161, 65, 9
+    CONTROL         "", IDC_GAP_SLIDER, "msctls_trackbar32", TBS_NOTICKS | WS_TABSTOP, 84, 158, 70, 14
+    EDITTEXT        IDC_GAP, 160, 158, 38, 14, ES_RIGHT | ES_AUTOHSCROLL | WS_TABSTOP
+    LTEXT           "厚度 (px)：", 606, 16, 183, 65, 9
+    CONTROL         "", IDC_THICKNESS_SLIDER, "msctls_trackbar32", TBS_NOTICKS | WS_TABSTOP, 84, 180, 70, 14
+    EDITTEXT        IDC_THICKNESS, 160, 180, 38, 14, ES_RIGHT | ES_AUTOHSCROLL | WS_TABSTOP
+    LTEXT           "准星尺寸 (px)：", 607, 16, 205, 65, 9
+    CONTROL         "", IDC_CROSS_SIZE_SLIDER, "msctls_trackbar32", TBS_NOTICKS | WS_TABSTOP, 84, 202, 70, 14
+    EDITTEXT        IDC_CROSS_SIZE, 160, 202, 38, 14, ES_RIGHT | ES_AUTOHSCROLL | WS_TABSTOP
+    LTEXT           "不透明度 (%)：", 608, 16, 227, 65, 9
+    CONTROL         "", IDC_OPACITY_SLIDER, "msctls_trackbar32", TBS_NOTICKS | WS_TABSTOP, 84, 224, 70, 14
+    EDITTEXT        IDC_OPACITY, 160, 224, 38, 14, ES_RIGHT | ES_AUTOHSCROLL | WS_TABSTOP
+    LTEXT           "角度 (°)：", 609, 16, 249, 65, 9
+    CONTROL         "", IDC_ANGLE_SLIDER, "msctls_trackbar32", TBS_NOTICKS | WS_TABSTOP, 84, 246, 70, 14
+    EDITTEXT        IDC_ANGLE, 160, 246, 38, 14, ES_RIGHT | ES_AUTOHSCROLL | WS_TABSTOP
+
+    LTEXT           "尺寸 0 为原大小；自绘支持像素编辑。\n修改实时生效并自动保存。", 602, 12, 282, 190, 22
+END
+
+IDD_DOT DIALOGEX 0, 0, 214, 310
+STYLE DS_SETFONT | DS_CONTROL | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "点准星"
+FONT 9, "MS Shell Dlg 2", 400, 0, 1
+BEGIN
+    CONTROL         "常态显示中心点(&E)", IDC_DOT_ENABLED, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 12, 10, 190, 11
+
+    GROUPBOX        "形状与颜色", 611, 8, 29, 198, 111
+    LTEXT           "形状(&S)：", 612, 16, 45, 46, 9
+    COMBOBOX        IDC_DOT_SHAPE, 66, 42, 132, 90, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "颜色(&C)...", IDC_DOT_COLOR, 16, 66, 104, 14
+    CONTROL         "", IDC_DOT_SWATCH, "HuntCrosshair.Swatch", WS_BORDER | WS_TABSTOP, 130, 66, 24, 14
+    PUSHBUTTON      "绘制点准星(&D)...", IDC_EDIT_DOT, 16, 89, 182, 14
+    LTEXT           "自绘尺寸 0 为原大小；三角尖端居中。", 613, 16, 113, 182, 20
+
+    GROUPBOX        "尺寸与透明度", 614, 8, 148, 198, 74
+    LTEXT           "点尺寸 (px)：", 615, 16, 168, 65, 9
+    CONTROL         "", IDC_DOT_SIZE_SLIDER, "msctls_trackbar32", TBS_NOTICKS | WS_TABSTOP, 84, 165, 70, 14
+    EDITTEXT        IDC_DOT_SIZE, 160, 165, 38, 14, ES_RIGHT | ES_AUTOHSCROLL | WS_TABSTOP
+    LTEXT           "不透明度 (%)：", 616, 16, 192, 65, 9
+    CONTROL         "", IDC_DOT_OPACITY_SLIDER, "msctls_trackbar32", TBS_NOTICKS | WS_TABSTOP, 84, 189, 70, 14
+    EDITTEXT        IDC_DOT_OPACITY, 160, 189, 38, 14, ES_RIGHT | ES_AUTOHSCROLL | WS_TABSTOP
+
+    GROUPBOX        "使用说明", 617, 8, 231, 198, 49
+    LTEXT           "收拢动画使用此页的点准星设置。\n可在位置页微调，使图案贴合瞄准位置。", 650, 16, 246, 182, 27
+    LTEXT           "", IDC_STATUS, 12, 287, 190, 18
+END
+
+IDD_ANIMATION DIALOGEX 0, 0, 214, 310
+STYLE DS_SETFONT | DS_CONTROL | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "动画"
+FONT 9, "MS Shell Dlg 2", 400, 0, 1
+BEGIN
+    LTEXT           "右键效果(&A)：", 618, 12, 13, 58, 9
+    COMBOBOX        IDC_ACTION, 74, 10, 128, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "触发方式(&T)：", 619, 12, 34, 58, 9
+    COMBOBOX        IDC_TRIGGER, 74, 31, 128, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "进入时长 (ms)：", 620, 12, 57, 65, 9
+    CONTROL         "", IDC_ENTER_DURATION_SLIDER, "msctls_trackbar32", TBS_NOTICKS | WS_TABSTOP, 84, 54, 70, 14
+    EDITTEXT        IDC_ENTER_DURATION, 160, 54, 38, 14, ES_RIGHT | ES_AUTOHSCROLL | WS_TABSTOP
+    LTEXT           "恢复时长 (ms)：", 621, 12, 78, 65, 9
+    CONTROL         "", IDC_LEAVE_DURATION_SLIDER, "msctls_trackbar32", TBS_NOTICKS | WS_TABSTOP, 84, 75, 70, 14
+    EDITTEXT        IDC_LEAVE_DURATION, 160, 75, 38, 14, ES_RIGHT | ES_AUTOHSCROLL | WS_TABSTOP
+    LTEXT           "动画曲线(&E)：", 622, 12, 100, 58, 9
+    COMBOBOX        IDC_EASING, 74, 97, 128, 180, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    GROUPBOX        "三次贝塞尔曲线", 623, 8, 118, 198, 158
+    CONTROL         "P1", IDC_POINT1, "Button", BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP, 16, 132, 30, 12
+    CONTROL         "P2", IDC_POINT2, "Button", BS_AUTORADIOBUTTON, 51, 132, 30, 12
+    PUSHBUTTON      "播放动画(&P)", IDC_REPLAY, 91, 130, 107, 14, WS_GROUP
+    CONTROL         "三次贝塞尔曲线编辑器", IDC_CURVE_GRAPH, "HuntCrosshair.Curve", WS_BORDER | WS_TABSTOP, 14, 149, 186, 120
+    PUSHBUTTON      "恢复自定义(&R)", IDC_RESET_CURVE, 12, 283, 94, 14
+    LTEXT           "拖动 P1/P2；方向键微调，Shift 精细微调。", 628, 12, 300, 190, 9
+END
+
+IDD_POSITION DIALOGEX 0, 0, 214, 310
+STYLE DS_SETFONT | DS_CONTROL | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "位置"
+FONT 9, "MS Shell Dlg 2", 400, 0, 1
+BEGIN
+    GROUPBOX        "显示器", 630, 8, 7, 198, 60
+    LTEXT           "目标显示器(&M)：", 631, 16, 22, 110, 9
+    PUSHBUTTON      "重新检测(&R)", IDC_REFRESH_MONITORS, 128, 18, 70, 14
+    COMBOBOX        IDC_MONITOR, 16, 35, 182, 90, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "仅在猎杀：对决处于前台时显示(&G)", IDC_ONLY_GAME, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 16, 53, 182, 11
+
+    GROUPBOX        "位置校准", 632, 8, 74, 198, 110
+    LTEXT           "水平偏移 (px)：", 633, 16, 87, 182, 9
+    CONTROL         "", IDC_OFFSET_X_SLIDER, "msctls_trackbar32", TBS_NOTICKS | WS_TABSTOP, 16, 99, 98, 14
+    PUSHBUTTON      "−", IDC_X_MINUS, 119, 99, 16, 14
+    EDITTEXT        IDC_OFFSET_X, 139, 99, 40, 14, ES_RIGHT | ES_AUTOHSCROLL | WS_TABSTOP
+    PUSHBUTTON      "+", IDC_X_PLUS, 183, 99, 16, 14
+    LTEXT           "垂直偏移 (px)：", 634, 16, 120, 182, 9
+    CONTROL         "", IDC_OFFSET_Y_SLIDER, "msctls_trackbar32", TBS_NOTICKS | WS_TABSTOP, 16, 132, 98, 14
+    PUSHBUTTON      "−", IDC_Y_MINUS, 119, 132, 16, 14
+    EDITTEXT        IDC_OFFSET_Y, 139, 132, 40, 14, ES_RIGHT | ES_AUTOHSCROLL | WS_TABSTOP
+    PUSHBUTTON      "+", IDC_Y_PLUS, 183, 132, 16, 14
+    LTEXT           "微调步长(&S)：", 635, 16, 150, 182, 9
+    COMBOBOX        IDC_OFFSET_STEP, 16, 162, 182, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    GROUPBOX        "校准说明", 637, 8, 195, 198, 91
+    LTEXT           "偏移以显示器的物理像素为单位。\n\n正值向右 / 向下，负值向左 / 向上。\n\n方向快捷键使用当前微调步长；\n可在“快捷键”页自定义按键。", 638, 16, 211, 182, 65
+    LTEXT           "位置修改实时生效并自动保存。", 639, 12, 295, 190, 10
+END
+
+IDD_HOTKEYS DIALOGEX 0, 0, 214, 310
+STYLE DS_SETFONT | DS_CONTROL | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "快捷键"
+FONT 9, "MS Shell Dlg 2", 400, 0, 1
+BEGIN
+    GROUPBOX        "全局快捷键", 660, 8, 7, 198, 204
+    LTEXT           "显示 / 隐藏：", 661, 16, 32, 47, 9
+    CONTROL         "", IDC_HOTKEY_BASE, "msctls_hotkey32", WS_BORDER | WS_TABSTOP, 65, 29, 107, 14
+    PUSHBUTTON      "清除", IDC_HOTKEY_CLEAR_BASE, 176, 29, 22, 14
+    LTEXT           "打开设置：", 662, 16, 58, 47, 9
+    CONTROL         "", IDC_HOTKEY_BASE+1, "msctls_hotkey32", WS_BORDER | WS_TABSTOP, 65, 55, 107, 14
+    PUSHBUTTON      "清除", IDC_HOTKEY_CLEAR_BASE+1, 176, 55, 22, 14
+    LTEXT           "退出程序：", 663, 16, 84, 47, 9
+    CONTROL         "", IDC_HOTKEY_BASE+2, "msctls_hotkey32", WS_BORDER | WS_TABSTOP, 65, 81, 107, 14
+    PUSHBUTTON      "清除", IDC_HOTKEY_CLEAR_BASE+2, 176, 81, 22, 14
+    LTEXT           "向左微调：", 664, 16, 110, 47, 9
+    CONTROL         "", IDC_HOTKEY_BASE+3, "msctls_hotkey32", WS_BORDER | WS_TABSTOP, 65, 107, 107, 14
+    PUSHBUTTON      "清除", IDC_HOTKEY_CLEAR_BASE+3, 176, 107, 22, 14
+    LTEXT           "向右微调：", 665, 16, 136, 47, 9
+    CONTROL         "", IDC_HOTKEY_BASE+4, "msctls_hotkey32", WS_BORDER | WS_TABSTOP, 65, 133, 107, 14
+    PUSHBUTTON      "清除", IDC_HOTKEY_CLEAR_BASE+4, 176, 133, 22, 14
+    LTEXT           "向上微调：", 666, 16, 162, 47, 9
+    CONTROL         "", IDC_HOTKEY_BASE+5, "msctls_hotkey32", WS_BORDER | WS_TABSTOP, 65, 159, 107, 14
+    PUSHBUTTON      "清除", IDC_HOTKEY_CLEAR_BASE+5, 176, 159, 22, 14
+    LTEXT           "向下微调：", 667, 16, 188, 47, 9
+    CONTROL         "", IDC_HOTKEY_BASE+6, "msctls_hotkey32", WS_BORDER | WS_TABSTOP, 65, 185, 107, 14
+    PUSHBUTTON      "清除", IDC_HOTKEY_CLEAR_BASE+6, 176, 185, 22, 14
+
+    PUSHBUTTON      "恢复默认快捷键(&R)", IDC_RESET_HOTKEYS, 12, 221, 120, 14
+    LTEXT           "", IDC_HOTKEY_STATUS, 12, 244, 190, 27
+    LTEXT           "点击输入框后直接按下组合键。\n清除可停用此项；修改实时生效并自动保存。", 668, 12, 282, 190, 22
+END
+
+IDD_SETTINGS DIALOGEX 0, 0, 214, 310
+STYLE DS_SETFONT | DS_CONTROL | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "设置"
+FONT 9, "MS Shell Dlg 2", 400, 0, 1
+BEGIN
+    GROUPBOX        "界面皮肤", 670, 8, 10, 198, 85
+    LTEXT           "选择皮肤(&S)：", 671, 16, 29, 182, 9
+    COMBOBOX        IDC_SKIN, 16, 44, 182, 70, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "切换实时生效，并保存为下次启动的外观。", 672, 16, 72, 182, 13
+
+    GROUPBOX        "外观", 673, 8, 108, 198, 85
+    LTEXT           "默认：跟随系统主题。\n\n复古：Windows 98 风格的经典外观。\n\n皮肤切换不影响准星和快捷键设置。", 674, 16, 125, 182, 56
+
+    PUSHBUTTON      "恢复默认设置(&D)", IDC_RESET_DEFAULTS, 12, 292, 120, 14
+END
