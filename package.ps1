@@ -11,9 +11,12 @@ Copy-Item -LiteralPath $exePath -Destination (Join-Path $portableStage 'HuntCros
 Copy-Item -LiteralPath $readmePath -Destination (Join-Path $portableStage '使用说明.md') -Force
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'LICENSE'),(Join-Path $PSScriptRoot 'THIRD_PARTY_NOTICES.md') -Destination $portableStage -Force
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'licenses') -Destination $portableStage -Recurse -Force
+$portableDocs = Join-Path $portableStage 'docs'
+New-Item -ItemType Directory -Force -Path $portableDocs | Out-Null
+Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'docs\images') -Destination $portableDocs -Recurse -Force
 Copy-Item -LiteralPath $exePath -Destination (Join-Path $DeliveryRoot 'HuntCrosshair-v1.9.exe') -Force
 $portableZip = Join-Path $DeliveryRoot 'HuntCrosshair-Portable-v1.9.zip'
-Compress-Archive -LiteralPath (Join-Path $portableStage 'HuntCrosshair.exe'),(Join-Path $portableStage '使用说明.md'),(Join-Path $portableStage 'LICENSE'),(Join-Path $portableStage 'THIRD_PARTY_NOTICES.md'),(Join-Path $portableStage 'licenses') -DestinationPath $portableZip -Force
+Compress-Archive -LiteralPath (Join-Path $portableStage 'HuntCrosshair.exe'),(Join-Path $portableStage '使用说明.md'),(Join-Path $portableStage 'LICENSE'),(Join-Path $portableStage 'THIRD_PARTY_NOTICES.md'),(Join-Path $portableStage 'licenses'),(Join-Path $portableStage 'docs') -DestinationPath $portableZip -Force
 $sourceZip = Join-Path $DeliveryRoot 'HuntCrosshair-Source-v1.9.zip'
 $sourceFiles = @('.gitignore','LICENSE','THIRD_PARTY_NOTICES.md','build.ps1','package.ps1','README.md') | ForEach-Object { Get-Item -LiteralPath (Join-Path $PSScriptRoot $_) }
 $sourceFiles += Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'src') -File | Where-Object { $_.Extension -in '.cpp','.h','.ico','.rc','.manifest' }
